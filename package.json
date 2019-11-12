@@ -1,0 +1,7 @@
+{
+  "name": "BlockChain",
+  "version": "1.0.0",
+  "dependencies": {
+    "truffle": "^5.1.0"
+  }
+}
