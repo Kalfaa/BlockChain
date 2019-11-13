@@ -5,6 +5,6 @@
     "truffle": "^5.1.0"
   },
  "scripts": {
-   "test" :   "truffle compile  && truffle test"
+   "test" :   "cd Contract && truffle compile  && truffle test"
  }
 }
