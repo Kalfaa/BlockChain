@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "dependencies": {
     "truffle": "^5.1.0"
-  }
+  },
+ "scripts": {
+   "test" :   "cd Contract && truffle compile  && truffle test"
+ }
 }
