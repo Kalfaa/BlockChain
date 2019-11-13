@@ -13,7 +13,7 @@ contract SadamHuschain {
 
     mapping(address => Candidate) public candidateByAddress;
     mapping(address => Voter) public voterByAddress;
-    
+
     function SadamHuschain(){
 
     }
