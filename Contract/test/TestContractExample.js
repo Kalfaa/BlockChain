@@ -2,16 +2,15 @@ const SadamHuschain = artifacts.require("SadamHuschain")
 const truffleAssert = require("truffle-assertions")
 
 contract("Vote", () => {
-    let houseFactoryInstance, houseId, createVoter
+    let sadamInstance, id, createVoter
 
     before(async () => {
         sadamInstance = await SadamHuschain.deployed()
-        await houseFactoryInstance.createUser("Ruben")
-        createVoter = await houseFactoryInstance.createVoter("hervé")
+        createVoter = await sadamInstance.createVoter("herve")
 
         truffleAssert.eventEmitted(createVoter, "createVoter", async (ev) => {
-            if (!ev.houseId) return false;
-            houseId = ev.houseId;
+            if (!ev.id) return false;
+            id = ev.id;
             return true
         })
     });
