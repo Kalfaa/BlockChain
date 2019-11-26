@@ -5,27 +5,27 @@ contract SadamHuschain {
         address id;
         uint8 score;
         string name;
-        mapping(address => uint8) voteList;
         string localisation;
         string description;
+        mapping(address => uint8) voteList;
     }
 
     struct Voter {
+        address id;
         string name;
         bool voted;
-        address id;
     }
 
     mapping(address => Well) public wellByAddress;
     mapping(address => Voter) public voterByAddress;
 
-    function createWell(string name,string localisation,string description) public   {
-        wellToto = Well(msg.sender,0,nom,voteList[],localisation,description);
+    function createWell(string memory name,string memory localisation,string memory description) public   {
+        Well memory wellToto = Well(msg.sender,0,name,localisation,description);
         wellByAddress[msg.sender] = wellToto;
     }
 
-    function createVoter(string name) public  {
-        voter = Voter(msg.sender,0,nom,voteList[],localisation,description);
+    function createVoter(string memory name) public  {
+       Voter memory voter = Voter(msg.sender,name,false);
         voterByAddress[msg.sender] = voter;
     }
 
