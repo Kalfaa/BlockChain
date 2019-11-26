@@ -2,9 +2,10 @@
   "name": "BlockChain",
   "version": "1.0.0",
   "dependencies": {
-    "truffle": "^5.1.0"
+    "truffle": "^5.1.0",
+    "truffle-assertions": "^0.9.2"
   },
- "scripts": {
-   "test" :   "cd Contract && truffle compile  && truffle test"
- }
+  "scripts": {
+    "test": "cd Contract && truffle compile  && truffle test"
+  }
 }
