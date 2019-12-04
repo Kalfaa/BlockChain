@@ -30,7 +30,7 @@ contract SadamHuschain {
         mapping(address=>uint8) voteList;
     }
 
-    address[] public wellAddressList;
+    address[] public wellAddressList ;
 
 
     mapping(address => Well)  public wellByAddress;
@@ -69,7 +69,6 @@ contract SadamHuschain {
     function getWellNumber() public returns(uint256){
         return wellAddressList.length;
     }
-
 
     function vote(address addrWell,uint8 a ) public returns (bool){
         if (a >= 0 && a< 11){

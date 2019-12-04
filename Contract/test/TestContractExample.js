@@ -33,19 +33,9 @@ contract("Vote", (accounts) => {
 
     });
 
-    it("Should return list", async () => {
-        var name = "Le puit de Kader";
-        var localisation = "Une loc";
-        var description = "Un puit incroyable";
-        var name2 = "Le puit de Kader22222222";
-        await sadamInstance.createWell(name,localisation,description,{from: accounts[0]});
-        var wells = await sadamInstance.getWellList.call();
-        var wellso = await sadamInstance.getWellNumber.call();
-        console.log(wells);
-        console.log(wells.length);
-        console.log(wellso);
 
-    });
+
+
 /*
     it("Should return one house created by user", async () => {
         const houses = await houseFactoryInstance.getHousesByUser.call();
@@ -55,4 +45,25 @@ contract("Vote", (accounts) => {
             "House is not found"
         )
     });*/
+});
+
+contract("Vote2", (accounts) => {
+    let sadamInstance, id, createVoter;
+
+    before(async () => {
+        sadamInstance = await SadamHuschain.deployed();
+    });
+
+    it("Should return list", async () => {
+        var name = "Le puit de Kader";
+        var localisation = "Une loc";
+        var description = "Un puit incroyable";
+        var name2 = "Le puit de Kader22222222";
+        await sadamInstance.createWell(name,localisation,description,{from:accounts[0]});
+        await sadamInstance.createWell(name2,localisation,description,{from:accounts[1]});
+        var wells = await sadamInstance.getWellList.call();
+        assert.equal(wells[0]['name'],name);
+        assert.equal(wells[1]['name'],name2);
+    });
+
 });
