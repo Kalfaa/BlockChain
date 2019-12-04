@@ -80,7 +80,7 @@ contract SadamHuschain {
             return WellToWellJson(well);
     }
 
-    function getWellList() public returns(WellJson[] memory){
+    function getWellList() public view returns(WellJson[] memory){
         uint len = wellNameList.length;
         WellJson[] memory wellList = new WellJson[](len);
         for (uint i=0; i< wellNameList.length; i++) {
@@ -106,7 +106,7 @@ contract SadamHuschain {
         }
     }
 
-    function WellToWellJson(Well memory well) private returns (WellJson memory){
+    function WellToWellJson(Well memory well) private view returns (WellJson memory){
         return WellJson(well.name,well.localisation,well.description);
     }
 
