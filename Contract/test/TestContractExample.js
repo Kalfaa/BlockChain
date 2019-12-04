@@ -51,4 +51,30 @@ contract("Vote2", (accounts) => {
         assert.equal(wells[1]['name'],name2);
     });
 
+
+    it("Should return list", async () => {
+        var name = "Le puit de Kader";
+        var localisation = "Une loc";
+        var description = "Un puit incroyable";
+        var name2 = "Le puit de Kader22222222";
+        await sadamInstance.createWell(name,localisation,description,{from:accounts[0]});
+        await sadamInstance.createWell(name2,localisation,description,{from:accounts[1]});
+        var wells = await sadamInstance.getWellList.call();
+
+        assert.equal(wells[0]['name'],name);
+        assert.equal(wells[1]['name'],name2);
+    });
+
+
+    it("Should create sadam", async () => {
+
+
+        var isSadam = await sadamInstance.isSadamInit.call({from:accounts[0]});
+        await sadamInstance.createSadam();
+        var isSadam2 = await sadamInstance.isSadamInit.call({from:accounts[0]});
+
+        assert.equal(isSadam,false);
+        assert.equal(isSadam2,true);
+    });
+
 });

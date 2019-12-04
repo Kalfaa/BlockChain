@@ -10,9 +10,12 @@ contract SadamHuschain {
         string localisation;
         string description;
         mapping(address => uint) voteList;
-                    address[] voterList;
+        address[] voterList;
     }
 
+    struct Sadam{
+        address id;
+    }
 
     struct WellJson {
         string name;
@@ -32,7 +35,7 @@ contract SadamHuschain {
 
     address[] public wellAddressList ;
 
-
+    Sadam public sadam;
     mapping(address => Well)  public wellByAddress;
     mapping(address => Voter) public voterByAddress;
 
@@ -46,6 +49,23 @@ contract SadamHuschain {
     function createVoter(string memory name) public {
        Voter memory voter = Voter(msg.sender,name,false);
         voterByAddress[msg.sender] = voter;
+    }
+
+    function createSadam() public returns (bool){
+        if(sadam.id == address(0)){
+            sadam = Sadam(msg.sender);
+            return true;
+        }
+        return false;
+    }
+
+
+
+    function isSadamInit() public returns (bool){
+        if(sadam.id == address(0)){
+            return false;
+        }
+        return true;
     }
 
     function getMyVoter() public returns (Voter memory) {
