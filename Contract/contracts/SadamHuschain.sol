@@ -33,17 +33,22 @@ contract SadamHuschain {
         mapping(address=>uint8) voteList;
     }
 
-    address[] public wellAddressList ;
+    string[] public wellNameList;
 
     Sadam public sadam;
-    mapping(address => Well)  public wellByAddress;
+    mapping(string => Well) public wellByName;
     mapping(address => Voter) public voterByAddress;
 
-    function createWell(string memory name,string memory localisation,string memory description) public   {
+    modifier isSadam(address addr) {
+        require (addr == sadam.id);
+        _;
+    }
+
+    function createWell(string memory name,string memory localisation,string memory description) public isSadam(msg.sender)  {
         address[] memory addressArray ;
         Well memory wellToto = Well(msg.sender,0,name,localisation,description,addressArray);
-        wellByAddress[msg.sender] = wellToto;
-        wellAddressList.push(msg.sender);
+        wellByName[name] = wellToto;
+        wellNameList.push(name);
     }
 
     function createVoter(string memory name) public {
@@ -59,8 +64,6 @@ contract SadamHuschain {
         return false;
     }
 
-
-
     function isSadamInit() public returns (bool){
         if(sadam.id == address(0)){
             return false;
@@ -68,36 +71,35 @@ contract SadamHuschain {
         return true;
     }
 
-    function getMyVoter() public returns (Voter memory) {
+    function getMyVoter() public view returns (Voter memory) {
         return voterByAddress[msg.sender];
     }
 
-    function getMyWell() public returns (WellJson memory) {
-            Well memory well = wellByAddress[msg.sender];
+    function getAWell(string memory name) public returns (WellJson memory) {
+            Well memory well = wellByName[name];
             return WellToWellJson(well);
     }
 
     function getWellList() public returns(WellJson[] memory){
-        uint len = wellAddressList.length;
+        uint len = wellNameList.length;
         WellJson[] memory wellList = new WellJson[](len);
-        for (uint i=0; i<wellAddressList.length; i++) {
-            wellList[i] = WellToWellJson(wellByAddress[wellAddressList[i]]);
+        for (uint i=0; i< wellNameList.length; i++) {
+            wellList[i] = WellToWellJson(wellByName[wellNameList[i]]);
         }
         return wellList;
     }
 
     function getWellNumber() public returns(uint256){
-        return wellAddressList.length;
+        return wellNameList.length;
     }
 
-    function vote(address addrWell,uint8 a ) public returns (bool){
+    function vote(string memory name,uint8 a ) public returns (bool){
         if (a >= 0 && a< 11){
-            wellByAddress[addrWell].voteList[msg.sender] = a;
-            wellByAddress[addrWell].score = a;
-            address[] storage addressList = wellByAddress[addrWell].voterList;
-            addressList.push(msg.sender);
-            wellByAddress[addrWell].voterList= addressList;
-            wellAddressList.push(msg.sender);
+            wellByName[name].voteList[msg.sender] = a;
+            wellByName[name].score = a;
+            address[] storage voteListWell = wellByName[name].voterList;
+            voteListWell.push(msg.sender);
+            wellByName[name].voterList = voteListWell;
             return true;
         }else{
             return false;
@@ -107,4 +109,5 @@ contract SadamHuschain {
     function WellToWellJson(Well memory well) private returns (WellJson memory){
         return WellJson(well.name,well.localisation,well.description);
     }
+
 }
