@@ -10,7 +10,7 @@ contract SadamHuschain {
         string localisation;
         string description;
         mapping(address => uint) voteList;
-        address[] voterList;
+                    address[] voterList;
     }
 
 

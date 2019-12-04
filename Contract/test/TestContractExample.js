@@ -14,7 +14,6 @@ contract("Vote", (accounts) => {
         var myVoter = await sadamInstance.getMyVoter.call();
         assert.equal(myVoter['name'],name);
         assert.equal(myVoter['voted'],false);
-
     });
 
 
