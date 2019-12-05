@@ -36,6 +36,7 @@ contract SadamHuschain {
     string[] public wellNameList;
 
     Sadam public sadam;
+    bool public voteStarted = false;
     mapping(string => Well) public wellByName;
     mapping(address => Voter) public voterByAddress;
 
@@ -94,16 +95,20 @@ contract SadamHuschain {
     }
 
     function vote(string memory name,uint8 a ) public returns (bool){
-        if (a >= 0 && a< 11){
             wellByName[name].voteList[msg.sender] = a;
             wellByName[name].score = a;
             address[] storage voteListWell = wellByName[name].voterList;
             voteListWell.push(msg.sender);
             wellByName[name].voterList = voteListWell;
             return true;
-        }else{
-            return false;
-        }
+    }
+
+    function isVoteStarted() public view returns(bool){
+        return voteStarted;
+    }
+
+    function startVote() public isSadam(msg.sender) {
+        voteStarted = true;
     }
 
     function WellToWellJson(Well memory well) private view returns (WellJson memory){

@@ -52,8 +52,6 @@ contract("Vote2", (accounts) => {
         assert.equal(wells[0]['name'],name);
         assert.equal(wells[1]['name'],name2);
     });
-
-
 });
 
 
@@ -64,6 +62,18 @@ contract("create sadam", (accounts) => {
         sadamInstance = await SadamHuschain.deployed();
     });
 
+
+    it("Should not start vote", async () => {
+
+        try {
+            await sadamInstance.startVote();
+            throw null;
+        }
+        catch (error) {
+            assert.equal(error, "Error: Returned error: VM Exception while processing transaction: revert");
+        }
+    });
+
     it("Should create sadam", async () => {
         var isSadam = await sadamInstance.isSadamInit.call({from:accounts[0]});
         await sadamInstance.createSadam();
@@ -72,4 +82,16 @@ contract("create sadam", (accounts) => {
         assert.equal(isSadam,false);
         assert.equal(isSadam2,true);
     });
+
+    it("Should start vote", async () => {
+        var isVoteStarted = await sadamInstance.isVoteStarted.call({from:accounts[0]});
+        console.log(isVoteStarted);
+        assert.equal(isVoteStarted,false);
+        await sadamInstance.startVote();
+        isVoteStarted = await sadamInstance.isVoteStarted.call({from:accounts[0]});
+        assert.equal(isVoteStarted,true);
+    });
+
+
 });
+

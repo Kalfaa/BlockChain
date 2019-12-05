@@ -8,6 +8,7 @@
   },
   "scripts": {
       "test": "cd Contract && truffle migrate && truffle migration && truffle test",
+      "testWithoutCompile" : "cd Contract && truffle test",
     "gan": "./home/theo/Téléchargements/ganache-2.1.2-linux-x86_64.AppImage"
   }
 }
