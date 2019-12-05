@@ -45,11 +45,14 @@ contract SadamHuschain {
         _;
     }
 
+
     function createWell(string memory name,string memory localisation,string memory description) public isSadam(msg.sender)  {
-        address[] memory addressArray ;
-        Well memory wellToto = Well(msg.sender,0,name,localisation,description,addressArray);
-        wellByName[name] = wellToto;
-        wellNameList.push(name);
+        if(voteStarted == false){
+            address[] memory addressArray ;
+            Well memory wellToto = Well(msg.sender,0,name,localisation,description,addressArray);
+            wellByName[name] = wellToto;
+            wellNameList.push(name);
+        }
     }
 
     function createVoter(string memory name) public {
@@ -95,12 +98,15 @@ contract SadamHuschain {
     }
 
     function vote(string memory name,uint8 a ) public returns (bool){
+        if(voteStarted==true){
             wellByName[name].voteList[msg.sender] = a;
-            wellByName[name].score = a;
+            wellByName[name].score += a;
             address[] storage voteListWell = wellByName[name].voterList;
             voteListWell.push(msg.sender);
             wellByName[name].voterList = voteListWell;
             return true;
+        }
+        return false;
     }
 
     function isVoteStarted() public view returns(bool){
