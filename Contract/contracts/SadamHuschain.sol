@@ -104,14 +104,14 @@ contract SadamHuschain {
     }
 
     function vote(string memory name,uint8 a ) public returns (bool){
-        bool isNameExist;
+        bool isNameExist = false;
         for(uint i = 0; i<wellNameList.length;i++){
             if(keccak256(abi.encodePacked((wellNameList[i]))) == keccak256(abi.encodePacked((name)))){
                 isNameExist = true;
                 break;
             }
         }
-        if(voteStarted==true){
+        if(voteStarted==true && isNameExist == true){
             wellByName[name].voteList[msg.sender] = a;
             wellByName[name].score += a;
             wellByName[name].voter+=1;
