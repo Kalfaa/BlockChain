@@ -1,6 +1,8 @@
 const SadamHuschain = artifacts.require("SadamHuschain");
 const truffleAssert = require("truffle-assertions");
 
+
+
 contract("Vote", (accounts) => {
     let sadamInstance, id, createVoter;
 
@@ -10,8 +12,8 @@ contract("Vote", (accounts) => {
 
     it("Should create a Voter", async () => {
         var name = "herve";
-        await sadamInstance.createVoter(name);
-        var myVoter = await sadamInstance.getMyVoter.call();
+        await sadamInstance.createVoter(name,{from:accounts[1]});
+        var myVoter = await sadamInstance.getMyVoter.call({from:accounts[1]});
         assert.equal(myVoter['name'],name);
         assert.equal(myVoter['voted'],false);
     });
@@ -28,6 +30,18 @@ contract("Vote", (accounts) => {
         assert.equal(myWell['name'],name);
         assert.equal(myWell['description'],description);
         assert.equal(myWell['localisation'],localisation);
+    });
+
+    it("Should vote", async () => {
+        await sadamInstance.startVote({from:accounts[0]});
+        var name = "herve";
+        var nameWell = "Le puit de Kader";
+        await sadamInstance.createVoter(name,{from:accounts[1]});
+        var wells = await sadamInstance.getWellList.call();var vote = await sadamInstance.vote(nameWell,10,{from:accounts[1]});
+        await sadamInstance.endVote({from:accounts[0]});
+        wells = await sadamInstance.getWellList.call();
+        console.log(wells);
+        assert.equal(wells[0].finalScore,10);
     });
 });
 
@@ -85,13 +99,10 @@ contract("create sadam", (accounts) => {
 
     it("Should start vote", async () => {
         var isVoteStarted = await sadamInstance.isVoteStarted.call({from:accounts[0]});
-        console.log(isVoteStarted);
         assert.equal(isVoteStarted,false);
         await sadamInstance.startVote();
         isVoteStarted = await sadamInstance.isVoteStarted.call({from:accounts[0]});
         assert.equal(isVoteStarted,true);
     });
-
-
 });
 

@@ -6,14 +6,16 @@ contract SadamHuschain {
     struct Well {
         address id;
         uint8 score;
+        uint8 voter;
         string name;
+        uint finalScore;
         string localisation;
         string description;
         mapping(address => uint) voteList;
         address[] voterList;
     }
 
-    struct Sadam{
+    struct Sadam {
         address id;
     }
 
@@ -21,6 +23,7 @@ contract SadamHuschain {
         string name;
         string localisation;
         string description;
+        uint finalScore;
     }
 
     struct Voter {
@@ -37,8 +40,11 @@ contract SadamHuschain {
 
     Sadam public sadam;
     bool public voteStarted = false;
+    bool public voteEnded = false;
+    bool mediane;
     mapping(string => Well) public wellByName;
     mapping(address => Voter) public voterByAddress;
+
 
     modifier isSadam(address addr) {
         require (addr == sadam.id);
@@ -49,8 +55,8 @@ contract SadamHuschain {
     function createWell(string memory name,string memory localisation,string memory description) public isSadam(msg.sender)  {
         if(voteStarted == false){
             address[] memory addressArray ;
-            Well memory wellToto = Well(msg.sender,0,name,localisation,description,addressArray);
-            wellByName[name] = wellToto;
+            Well memory well = Well(msg.sender,0,0,name,0,localisation,description,addressArray);
+            wellByName[name] = well;
             wellNameList.push(name);
         }
     }
@@ -98,9 +104,17 @@ contract SadamHuschain {
     }
 
     function vote(string memory name,uint8 a ) public returns (bool){
+        bool isNameExist;
+        for(uint i = 0; i<wellNameList.length;i++){
+            if(keccak256(abi.encodePacked((wellNameList[i]))) == keccak256(abi.encodePacked((name)))){
+                isNameExist = true;
+                break;
+            }
+        }
         if(voteStarted==true){
             wellByName[name].voteList[msg.sender] = a;
             wellByName[name].score += a;
+            wellByName[name].voter+=1;
             address[] storage voteListWell = wellByName[name].voterList;
             voteListWell.push(msg.sender);
             wellByName[name].voterList = voteListWell;
@@ -108,6 +122,7 @@ contract SadamHuschain {
         }
         return false;
     }
+
 
     function isVoteStarted() public view returns(bool){
         return voteStarted;
@@ -118,7 +133,15 @@ contract SadamHuschain {
     }
 
     function WellToWellJson(Well memory well) private view returns (WellJson memory){
-        return WellJson(well.name,well.localisation,well.description);
+        return WellJson(well.name,well.localisation,well.description,well.finalScore);
     }
 
+    function endVote() public isSadam(msg.sender){
+        voteEnded = true ;
+        for (uint i = 0 ; i<wellNameList.length;i++){
+            string memory name = wellNameList[i];
+            wellByName[name].finalScore = wellByName[name].score / wellByName[name].voter;
+        }
+        return;
+    }
 }
