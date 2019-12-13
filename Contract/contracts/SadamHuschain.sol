@@ -5,8 +5,8 @@ contract SadamHuschain {
 
     struct Well {
         address id;
-        uint8 score;
-        uint8 voter;
+        uint score;
+        uint voter;
         string name;
         uint finalScore;
         string localisation;
@@ -140,7 +140,10 @@ contract SadamHuschain {
         voteEnded = true ;
         for (uint i = 0 ; i<wellNameList.length;i++){
             string memory name = wellNameList[i];
-            wellByName[name].finalScore = wellByName[name].score / wellByName[name].voter;
+            Well storage well= wellByName[name];
+            if(well.voter!=0){
+                well.finalScore = well.score / well.voter;
+            }
         }
         return;
     }
