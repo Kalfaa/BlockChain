@@ -30,6 +30,12 @@ contract("Vote", (accounts) => {
         assert.equal(isSadam2,true);
     });
 
+    it("Should check if its sadam", async () => {
+        var isSadam =await sadamInstance.isThisSadam.call({from:accounts[0]});
+
+        assert.equal(isSadam,true);
+    });
+
     it("Should create a Voter", async () => {
         var name = "herve";
         await sadamInstance.createVoter(name,{from:accounts[1]});
@@ -38,6 +44,11 @@ contract("Vote", (accounts) => {
         assert.equal(myVoter['voted'],false);
     });
 
+    it("Should check if its sadam", async () => {
+        var isSadam =await sadamInstance.isThisSadam.call({from:accounts[1]});
+
+        assert.equal(isSadam,false);
+    });
 
     it("Should create a Well", async () => {
         var name = "Le puit de Kader";

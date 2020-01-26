@@ -81,6 +81,13 @@ contract SadamHuschain {
         return true;
     }
 
+    function isThisSadam() public returns (bool){
+        if(msg.sender == sadam.id){
+            return true;
+        }
+        return false;
+    }
+
     function getMyVoter() public view returns (Voter memory) {
         return voterByAddress[msg.sender];
     }
