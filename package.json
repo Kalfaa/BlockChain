@@ -1,14 +1,51 @@
 {
-  "name": "BlockChain",
+  "name": "sadam-huschain",
   "version": "1.0.0",
   "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-scripts": "3.2.0",
     "truffle": "^5.1.0",
     "truffle-assertions": "^0.9.2",
     "web3": "^1.2.4"
   },
   "scripts": {
-      "test": "cd Contract && truffle migrate && truffle migration && truffle test",
-      "testWithoutCompile" : "cd Contract && truffle test",
-    "gan": "./home/theo/Téléchargements/ganache-2.1.2-linux-x86_64.AppImage"
-  }
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "cd Contract && truffle migrate && truffle migration && truffle test",
+    "testWithoutCompile" : "cd Contract && truffle test",
+    "gan": "./home/theo/Téléchargements/ganache-2.1.2-linux-x86_64.AppImage",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "description": "The most beautiful oilwell",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kalfaa/Sadam-Huschain.git"
+  },
+  "keywords": [
+    "solidity"
+  ],
+  "author": "Théo Bulfon, Loïc Colat, Christopher Malivert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kalfaa/Sadam-Huschain/issues"
+  },
+  "homepage": "https://github.com/Kalfaa/Sadam-Huschain#readme"
 }
