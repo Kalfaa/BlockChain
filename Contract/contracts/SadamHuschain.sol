@@ -137,6 +137,12 @@ contract SadamHuschain {
 
     function startVote() public isSadam(msg.sender) {
         voteStarted = true;
+        for(uint i = 0; i<wellNameList.length;i++){
+            string memory name = wellNameList[i];
+            Well storage well= wellByName[name];
+            well.finalScore = 0;
+            well.score = 0;
+        }
     }
 
     function WellToWellJson(Well memory well) private view returns (WellJson memory){
