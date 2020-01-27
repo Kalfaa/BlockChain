@@ -151,6 +151,7 @@ contract SadamHuschain {
 
     function endVote() public isSadam(msg.sender){
         voteEnded = true ;
+        voteStarted = false ;
         for (uint i = 0 ; i<wellNameList.length;i++){
             string memory name = wellNameList[i];
             Well storage well= wellByName[name];

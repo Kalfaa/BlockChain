@@ -82,7 +82,8 @@ contract("Vote", (accounts) => {
         await sadamInstance.vote(nameWell,10,{from:accounts[1]});
         await sadamInstance.endVote({from:accounts[0]});
         var wells = await sadamInstance.getWellList.call();
-        console.log(wells);
+        var isVoteStarted = await sadamInstance.isVoteStarted.call({from:accounts[0]});
+        console.log(isVoteStarted);
         assert.equal(wells[0].finalScore,10);
     });
 
